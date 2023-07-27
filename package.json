@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc -w",
+    "start": "tsup --watch",
+    "build": "tsup",
     "test": "vitest --ui",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx ./",
     "prepare": "husky install"
@@ -32,6 +33,7 @@
     "husky": "^8.0.3",
     "ora": "^6.3.1",
     "rollup": "^3.26.3",
+    "tsup": "^7.1.0",
     "typescript": "^5.1.6",
     "vitest": "^0.33.0"
   },

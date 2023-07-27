@@ -2,7 +2,6 @@ import { build as viteBuild } from 'vite';
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
 import { type RollupOutput } from 'rollup';
 import { renderPage } from './renderPage';
-// import pluginReact from '@vitejs/plugin-react';
 
 export async function bundle(root: string) {
   try {
@@ -50,7 +49,9 @@ export async function build(root: string = process.cwd()) {
 
     // 引入ssr入口模块
     const serverEntryPath = serverBundle.output[0].fileName;
-    const { render } = require(`${root}/buildDist/.temp/${serverEntryPath}`);
+    const { render } = await import(
+      `${root}/buildDist/.temp/${serverEntryPath}`
+    );
     await renderPage(render, root, clientBundle);
   } catch (error) {
     console.log(error);
