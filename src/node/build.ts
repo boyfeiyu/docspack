@@ -1,37 +1,33 @@
-import { build as viteBuild } from 'vite';
+import { InlineConfig, build as viteBuild } from 'vite';
 import { CLIENT_ENTRY_PATH, SERVER_ENTRY_PATH } from './constants';
 import { type RollupOutput } from 'rollup';
 import { renderPage } from './renderPage';
+import pluginReact from '@vitejs/plugin-react';
 
 export async function bundle(root: string) {
+  const resolveViteConfig = (isServer: boolean): InlineConfig => ({
+    mode: 'production',
+    root,
+    // 自动注入 import React from 'react'，避免 React is not defined 的错误
+    plugins: [pluginReact()],
+    build: {
+      ssr: isServer,
+      outDir: isServer ? 'build/.temp' : 'build',
+      rollupOptions: {
+        input: isServer ? SERVER_ENTRY_PATH : CLIENT_ENTRY_PATH,
+        output: {
+          format: isServer ? 'cjs' : 'esm'
+        }
+      }
+    }
+  });
+
   try {
     const clientBuild = async () => {
-      return viteBuild({
-        mode: 'production',
-        root,
-        build: {
-          outDir: 'buildDist',
-          rollupOptions: {
-            input: CLIENT_ENTRY_PATH
-          }
-        }
-      });
+      return viteBuild(resolveViteConfig(false));
     };
     const serverBuild = async () => {
-      return viteBuild({
-        mode: 'production',
-        root,
-        build: {
-          ssr: true,
-          outDir: 'buildDist/.temp',
-          rollupOptions: {
-            input: SERVER_ENTRY_PATH,
-            output: {
-              format: 'cjs'
-            }
-          }
-        }
-      });
+      return viteBuild(resolveViteConfig(true));
     };
 
     return await Promise.all([clientBuild(), serverBuild()]);
@@ -49,9 +45,7 @@ export async function build(root: string = process.cwd()) {
 
     // 引入ssr入口模块
     const serverEntryPath = serverBundle.output[0].fileName;
-    const { render } = await import(
-      `${root}/buildDist/.temp/${serverEntryPath}`
-    );
+    const { render } = await import(`${root}/build/.temp/${serverEntryPath}`);
     await renderPage(render, root, clientBundle);
   } catch (error) {
     console.log(error);

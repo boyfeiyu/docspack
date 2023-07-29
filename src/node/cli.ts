@@ -3,7 +3,7 @@ import { createDevServer } from './dev';
 import { resolve } from 'path';
 import { build } from './build';
 const version = require('../../package.json').version;
-const cli = cac('island').version(version).help();
+const cli = cac('docspack').version(version).help();
 
 cli
   .command('[root]', 'start dev server')

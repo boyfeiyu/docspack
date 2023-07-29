@@ -26,7 +26,7 @@ export async function renderPage(
     <script type="module" src="/${clientChunk?.fileName}"></script>
   </body>
 </html>`.trim();
-  await fs.ensureDir(join(root, 'buildDist'));
-  await fs.writeFile(join(root, 'buildDist/index.html'), html);
-  await fs.remove(join(root, 'buildDist/.temp'));
+  await fs.ensureDir(join(root, 'build'));
+  await fs.writeFile(join(root, 'build/index.html'), html);
+  await fs.remove(join(root, 'build/.temp'));
 }
