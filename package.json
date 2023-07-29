@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsup --watch",
     "build": "tsup",
-    "test:unit": "vitest --ui",
+    "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx ./",
     "prepare": "husky install",
