@@ -2,7 +2,6 @@ import { join } from 'path';
 
 export const PACKAGE_ROOT = join(__dirname, '..');
 
-console.log('PACKAGE_ROOT', PACKAGE_ROOT, __dirname);
 export const DEFAULT_HTML_PATH = join(PACKAGE_ROOT, 'template.html');
 
 export const CLIENT_ENTRY_PATH = join(

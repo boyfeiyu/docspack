@@ -2,6 +2,7 @@ import { readFile } from 'fs/promises';
 import { Plugin } from 'vite';
 import { DEFAULT_HTML_PATH } from '../constants';
 
+//  TODO dev时使用真实的 vite 构建出来的文件
 export function pluginIndexHtml(): Plugin {
   return {
     name: 'docspack:index-html',
