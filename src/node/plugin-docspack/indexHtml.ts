@@ -1,9 +1,10 @@
 import { readFile } from 'fs/promises';
 import { Plugin } from 'vite';
 import { DEFAULT_HTML_PATH } from '../constants';
+import { SiteConfig } from '../../shared/types';
 
-//  TODO dev时使用真实的 vite 构建出来的文件
-export function pluginIndexHtml(): Plugin {
+export function pluginIndexHtml(config: SiteConfig): Plugin {
+  console.log(config);
   return {
     name: 'docspack:index-html',
     apply: 'serve',
