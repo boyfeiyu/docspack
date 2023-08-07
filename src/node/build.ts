@@ -4,16 +4,18 @@ import { type RollupOutput } from 'rollup';
 import { renderPage } from './renderPage';
 import pluginReact from '@vitejs/plugin-react';
 import { pluginConfig } from './plugin-docspack/config';
-import { resolveConfig } from './config';
+import { SiteConfig } from '@/shared/types';
 
-export async function bundle(root: string) {
-  const config = await resolveConfig(root, 'build', 'production');
-
+export async function bundle(root: string, config: SiteConfig) {
   const resolveViteConfig = (isServer: boolean): InlineConfig => ({
     mode: 'production',
     root,
     // 自动注入 import React from 'react'，避免 React is not defined 的错误
-    plugins: [pluginConfig(config), pluginReact()],
+    plugins: [pluginReact(), pluginConfig(config)],
+    ssr: {
+      // 防止 cjs 产物中 require ESM 的产物，因为 react-router-dom 的产物为 ESM 格式
+      noExternal: ['react-router-dom']
+    },
     build: {
       ssr: isServer,
       outDir: isServer ? 'build/.temp' : 'build',
@@ -40,9 +42,9 @@ export async function bundle(root: string) {
   }
 }
 
-export async function build(root: string = process.cwd()) {
+export async function build(root: string = process.cwd(), config: SiteConfig) {
   try {
-    const [clientBundle, serverBundle] = (await bundle(root)) as [
+    const [clientBundle, serverBundle] = (await bundle(root, config)) as [
       RollupOutput,
       RollupOutput
     ];
