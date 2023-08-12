@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import 'uno.css';
 
 export function Layout() {
   const [count, setCount] = useState(0);
