@@ -1,10 +1,8 @@
 import { readFile } from 'fs/promises';
 import { Plugin } from 'vite';
 import { DEFAULT_HTML_PATH } from '../constants';
-import { SiteConfig } from '../../shared/types';
 
-export function pluginIndexHtml(config: SiteConfig): Plugin {
-  console.log(config);
+export function pluginIndexHtml(): Plugin {
   return {
     name: 'docspack:index-html',
     apply: 'serve',

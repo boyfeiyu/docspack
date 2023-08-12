@@ -8,5 +8,9 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   dts: true,
   shims: true,
-  clean: true
+  clean: true,
+  banner: {
+    // 解决在esm中调用require报错的问题
+    js: 'import { createRequire } from "module"; const require = createRequire(import.meta.url);'
+  }
 });
