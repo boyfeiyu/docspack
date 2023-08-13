@@ -8,6 +8,7 @@ import { pluginConfig } from './plugin-docspack/config';
 import { pluginRoutes } from './plugin-routes';
 
 import { PACKAGE_ROOT } from './constants';
+import { createPluginMdx } from './plugin-mdx';
 
 export async function createDevServer(root = process.cwd()) {
   // FIXME dev访问路由时偶尔会直接返回静态资源
@@ -20,7 +21,8 @@ export async function createDevServer(root = process.cwd()) {
         jsxRuntime: 'automatic'
       }),
       pluginConfig(config),
-      pluginRoutes({ root: config.root })
+      pluginRoutes({ root: config.root }),
+      createPluginMdx()
     ],
     server: {
       fs: {
