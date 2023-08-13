@@ -9,13 +9,15 @@ import { Plugin } from 'rollup';
 import { rehypePluginShiki } from '../rehypePlugins/shiki';
 import shiki from 'shiki';
 import { rehypePluginPreWrapper } from '../rehypePlugins/preWrapper';
+import { remarkPluginToc } from '../remarkPlugins/toc';
 
 export async function pluginMdxRollup(): Promise<Plugin> {
   return pluginMdx({
     remarkPlugins: [
       remarkPluginGFM,
       remarkPluginMDXFrontMatter,
-      remarkPluginFrontmatter
+      remarkPluginFrontmatter,
+      remarkPluginToc
     ],
     rehypePlugins: [
       rehypePluginSlug,
