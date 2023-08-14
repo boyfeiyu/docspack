@@ -1,13 +1,27 @@
 import { readFile } from 'fs/promises';
 import { Plugin } from 'vite';
-import { DEFAULT_HTML_PATH } from '../constants';
-import { SiteConfig } from '../../shared/types';
+import { CLIENT_ENTRY_PATH, DEFAULT_HTML_PATH } from '../constants';
 
-export function pluginIndexHtml(config: SiteConfig): Plugin {
-  console.log(config);
+export function pluginIndexHtml(): Plugin {
   return {
     name: 'docspack:index-html',
     apply: 'serve',
+    // 插入入口 script 标签
+    transformIndexHtml(html) {
+      return {
+        html,
+        tags: [
+          {
+            tag: 'script',
+            attrs: {
+              type: 'module',
+              src: `/@fs/${CLIENT_ENTRY_PATH}`
+            },
+            injectTo: 'body'
+          }
+        ]
+      };
+    },
     configureServer(server) {
       return () => {
         server.middlewares.use(async (req, res, next) => {
