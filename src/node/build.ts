@@ -4,7 +4,7 @@ import { type RollupOutput } from 'rollup';
 import { renderPage } from './renderPage';
 import { SiteConfig } from '@/shared/types';
 import { createVitePlugins } from './vitePlugins';
-
+// TODO 兼容windows
 export async function bundle(root: string, config: SiteConfig) {
   const resolveViteConfig = async (
     isServer: boolean
