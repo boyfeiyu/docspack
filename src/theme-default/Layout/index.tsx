@@ -1,4 +1,4 @@
-import { Content } from '@runtime';
+import { Content } from '../../runtime/Content';
 import 'uno.css';
 export function Layout() {
   return (

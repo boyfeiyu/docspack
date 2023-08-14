@@ -6,14 +6,14 @@ import { SiteConfig } from '../shared/types';
 import { pluginMdx } from './plugin-mdx';
 import pluginUnocss from 'unocss/vite';
 import unocssOptions from './unocssOptions';
-export async function createVitePlugins(config: SiteConfig) {
+export async function createVitePlugins(config: SiteConfig, isSSR = false) {
   return [
     pluginIndexHtml(),
     pluginReact({
       jsxRuntime: 'automatic'
     }),
     pluginConfig(config),
-    pluginRoutes({ root: config.root }),
+    pluginRoutes({ root: config.root, isSSR }),
     await pluginMdx(),
     pluginUnocss(unocssOptions)
   ];
