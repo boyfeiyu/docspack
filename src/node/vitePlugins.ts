@@ -4,7 +4,8 @@ import { pluginConfig } from './plugin-docspack/config';
 import { pluginRoutes } from './plugin-routes';
 import { SiteConfig } from '../shared/types';
 import { pluginMdx } from './plugin-mdx';
-
+import pluginUnocss from 'unocss/vite';
+import unocssOptions from './unocssOptions';
 export async function createVitePlugins(config: SiteConfig) {
   return [
     pluginIndexHtml(),
@@ -13,6 +14,7 @@ export async function createVitePlugins(config: SiteConfig) {
     }),
     pluginConfig(config),
     pluginRoutes({ root: config.root }),
-    await pluginMdx()
+    await pluginMdx(),
+    pluginUnocss(unocssOptions)
   ];
 }
